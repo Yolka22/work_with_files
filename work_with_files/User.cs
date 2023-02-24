@@ -47,5 +47,57 @@ namespace work_with_files
             set { password = value; }
         }
 
+        private int score;
+
+        public int Score
+        {
+            get { return score; }
+            set { score = value; }
+        }
+
+
+
+        public void Start_Quiz(Quiz quiz, User user)
+
+        {
+
+
+            for (int i = 0; i < quiz.tasks.Count; i++)
+            {
+
+                string answer = quiz.tasks[i].correct;
+
+                Console.WriteLine(quiz.tasks[i].question);
+
+                string[] general = new string[quiz.tasks[i].incorrect.Count + 1];
+
+                general[0] = quiz.tasks[i].correct;
+
+                for (int j = 0; j < quiz.tasks[i].incorrect.Count; j++)
+                {
+                    general[j + 1] = quiz.tasks[i].incorrect[j];
+                }
+
+                var rand = new Random();
+                rand.Shuffle(general);
+
+                for (int j = 0; j < general.Length; j++)
+                {
+                    Console.WriteLine(general[j]);
+                }
+
+                Console.Write("введите свой ответ : ");
+                string user_answer = Console.ReadLine().ToLower();
+                if (user_answer == answer)
+                {
+                    user.Score += 100;
+                }
+            }
+
+            
+            quiz.Add_To_Table(user.Name, user.Score);
+            user.Score = 0;
+        }
+
     }
 }

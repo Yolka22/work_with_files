@@ -18,7 +18,7 @@ namespace work_with_files
 
 
         public List<Task> tasks = new List<Task>();
-
+        public List<Score> scores = new List<Score>();
 
         public void Add_Question()
         {
@@ -42,5 +42,25 @@ namespace work_with_files
             tasks.Add(task);
 
         }
+
+        public void Add_To_Table(string name, int score)
+        {
+
+            Score unit = new Score();
+            unit.name = name;
+            unit.score = score;
+
+            scores.Add(unit);
+        }
+
+
     }
+
+   
+}
+struct Score {
+
+    public string name;
+    public int score;
+
 }

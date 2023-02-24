@@ -19,6 +19,78 @@ namespace work_with_files
 
         }
 
+
+        public Quiz Choose_Quiz()
+        {
+            Console.WriteLine("Выберите викторину из списка чтобы начать");
+            int answer;
+            int count = 1;
+            for (int i = 0; i < quizes.Count; i++)
+            {
+                Console.WriteLine(count + " " +quizes[i].Name);
+            }
+            answer = Convert.ToInt32(Console.ReadLine());
+
+            return quizes[answer-1];
+        }
+
+        public void Menu(User user)
+        {
+           
+            int e;
+
+            do
+            {
+                Console.WriteLine("\nЧто вы хотите?");
+                Console.WriteLine("\nНачать викторину - 1; \nВыйти - 2;\n"); 
+
+                e = Convert.ToInt32(Console.ReadLine());
+
+                if (e == 1)
+                {
+                    user.Start_Quiz(Choose_Quiz(), user);
+
+                }
+            } while (e != 2); 
+
+
+        }
+
+        public void Login()
+        {
+            Console.WriteLine("Введите login");
+            
+            string tmp_login = Console.ReadLine();
+            for (int i = 0; i < users.Count; i++)
+            {
+                if (users[i].Login == tmp_login)
+                {
+                
+                    Console.WriteLine("Введите пароль");
+
+                    PASSWORD:
+                    string tmp_password = Console.ReadLine();
+                    if (users[i].Password == tmp_password)
+                    {
+
+                            Menu(users[i]);
+                        
+                        
+                    }
+                    else
+                    {
+
+                        Console.WriteLine("Неверный пароль");
+                        goto PASSWORD;
+
+                    }
+
+
+                }
+                
+            }
+        }
+
         public void add_user()
         {
 
@@ -50,7 +122,6 @@ namespace work_with_files
 
             users.Add(user);
         }
-
         public void add_quiz()
         {
             Quiz quiz = new Quiz();
@@ -68,7 +139,6 @@ namespace work_with_files
 
             quizes.Add(quiz);
         }
-
         public void Save_Quizes(string path)
         {
             FileStream fs = new FileStream(path, FileMode.Create);
@@ -82,6 +152,14 @@ namespace work_with_files
                 sw.WriteLine(quizes[i].Name);
 
                 sw.WriteLine(quizes[i].tasks.Count);
+
+                sw.WriteLine(quizes[i].scores.Count);
+
+                for (int j = 0; j < quizes[i].scores.Count; j++)
+                {
+                    sw.WriteLine(quizes[i].scores[j].name);
+                    sw.WriteLine(quizes[i].scores[j].score);
+                }
 
                 for (int j = 0; j < quizes[i].tasks.Count; j++)
                 {
@@ -104,15 +182,13 @@ namespace work_with_files
             fs.Close();
 
         }
-
-
         public void Read_Quizes(string path)
         {
             String line;
             Quiz quiz = new Quiz();
             Task task = new Task();
             StreamReader sr = new StreamReader(path);
-
+            Score score = new Score();
 
             line = sr.ReadLine();
             int Quizes_size = Convert.ToInt32(line);
@@ -125,6 +201,20 @@ namespace work_with_files
                 quiz.Name = line;
                 line = sr.ReadLine();
                 int questions_size = Convert.ToInt32(line);
+
+                line= sr.ReadLine();
+                int score_board_size = Convert.ToInt32(line);
+                for (int j = 0; j < score_board_size; j++)
+                {
+                    
+                    line = sr.ReadLine();
+                    score.name = line;
+                    line = sr.ReadLine();
+                    score.score = Convert.ToInt32(line);
+                    quiz.scores.Add(score);
+                }
+
+
                 line = sr.ReadLine();
                 int incorrect_size = Convert.ToInt32(line);
                 for (int j = 0; j < questions_size; j++)
@@ -149,6 +239,8 @@ namespace work_with_files
                 quizes.Add(quiz);
 
             }
+
+            sr.Close();
         }
         public void Save_Users(string path)
         {
@@ -171,16 +263,13 @@ namespace work_with_files
             sw.Close();
             fs.Close();
         }
-
-
-
         public void Read_Users(string path)
         {
-
+            StreamReader sr = new StreamReader(path);
             String line;
             try
             {
-                StreamReader sr = new StreamReader(path);
+                
 
                 line = sr.ReadLine();
                 int size = Convert.ToInt32(line);
@@ -199,6 +288,7 @@ namespace work_with_files
                     line = sr.ReadLine();
                     user.Password = line;
 
+
                     users.Add(user);
                 }
 
@@ -208,12 +298,10 @@ namespace work_with_files
             }
             catch (Exception e)
             {
+                sr.Close();
                 Console.WriteLine("Exception: " + e.Message);
             }
         }
-
-
-
         public void Show_User_List()
         {
 
