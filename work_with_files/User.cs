@@ -94,7 +94,7 @@ namespace work_with_files
                 }
             }
 
-            
+
             quiz.Add_To_Table(user.Name, user.Score);
             user.Score = 0;
         }

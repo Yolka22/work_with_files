@@ -28,31 +28,13 @@ namespace work_with_files
 
         static void Main(string[] args)
         {
-            string user_path = "Users.txt";
-            string quiz_path = "Quizes.txt";
-            Base baza = new Base();
-
-
-            baza.Read_Users(user_path);
-            baza.Read_Quizes(quiz_path);
-
-            //baza.add_user();
-            //baza.add_user();
-            //baza.add_user();
-
-
-
-            baza.Show_User_List();
-
-            baza.Login();
             
-            //baza.add_quiz();
-            baza.Save_Quizes(quiz_path);
-            baza.Save_Users(user_path);
 
+            Base baze = new Base();
 
-            Console.ReadLine();
-
+            baze.Read_Users();
+            baze.Read_Quizes();
+            baze.Main_Menu();
         }
     }
 }

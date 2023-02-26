@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace work_with_files
 {
-    internal class Quiz
+    internal class Quiz 
     {
         private string name;
 
@@ -54,13 +54,35 @@ namespace work_with_files
         }
 
 
+
+        public void Show_Top()
+
+        {
+
+           scores.Sort();
+
+
+            if (scores.Count == 20) {
+
+                for (int i = 0; i < 20; i++)
+                {
+
+                    scores[i].Show();
+
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < scores.Count; i++)
+                {
+                    scores[i].Show();
+                }
+            }
+            
+        }
+
     }
 
    
-}
-struct Score {
-
-    public string name;
-    public int score;
-
 }

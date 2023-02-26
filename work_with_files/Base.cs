@@ -19,10 +19,14 @@ namespace work_with_files
 
         }
 
+        string users_path = "Users.txt";
+        string quizes_path = "Quizes.txt";
+
+
 
         public Quiz Choose_Quiz()
         {
-            Console.WriteLine("Выберите викторину из списка чтобы начать");
+            Console.WriteLine("Выберите викторину из списка");
             int answer;
             int count = 1;
             for (int i = 0; i < quizes.Count; i++)
@@ -33,7 +37,6 @@ namespace work_with_files
 
             return quizes[answer-1];
         }
-
         public void Menu(User user)
         {
            
@@ -42,22 +45,81 @@ namespace work_with_files
             do
             {
                 Console.WriteLine("\nЧто вы хотите?");
-                Console.WriteLine("\nНачать викторину - 1; \nВыйти - 2;\n"); 
+                Console.WriteLine("\nНачать викторину - 1;" +
+                                  "\nПоказать топ по викторине - 2"+
+                                  "\nВыйти - 3;" +
+                                  "\n"); 
 
                 e = Convert.ToInt32(Console.ReadLine());
 
-                if (e == 1)
+
+
+                switch (e)
                 {
-                    user.Start_Quiz(Choose_Quiz(), user);
+                    case 1:
 
+                        user.Start_Quiz(Choose_Quiz(), user);
+
+                        break;
+
+                    case 2:
+                        Choose_Quiz().Show_Top();
+                        break;
+
+                    case 3:
+
+                        Main_Menu();
+
+                        break;
                 }
-            } while (e != 2); 
+                
+            } while (e != 3);
 
+            
 
         }
+        public void Main_Menu()
+        {
 
+            Console.WriteLine("Зарегистрироваться - 1");
+            Console.WriteLine("Войти - 2");
+            Console.WriteLine("Выйти - 3");
+
+            int e = Convert.ToInt32(Console.ReadLine());
+
+            do
+            {
+                switch (e)
+                {
+                    case 1:
+
+                        add_user();
+
+
+                        break;
+
+                    case 2:
+
+                        Login();
+
+                        break;
+
+                    case 3:
+
+                        Save_Quizes();
+                        Save_Users();
+                        Environment.Exit(0);
+                        break;
+                }
+            } while (true);
+
+           
+
+        }
         public void Login()
         {
+
+
             Console.WriteLine("Введите login");
             
             string tmp_login = Console.ReadLine();
@@ -68,20 +130,15 @@ namespace work_with_files
                 
                     Console.WriteLine("Введите пароль");
 
-                    PASSWORD:
                     string tmp_password = Console.ReadLine();
                     if (users[i].Password == tmp_password)
                     {
-
                             Menu(users[i]);
-                        
-                        
                     }
                     else
                     {
 
                         Console.WriteLine("Неверный пароль");
-                        goto PASSWORD;
 
                     }
 
@@ -90,7 +147,6 @@ namespace work_with_files
                 
             }
         }
-
         public void add_user()
         {
 
@@ -139,9 +195,9 @@ namespace work_with_files
 
             quizes.Add(quiz);
         }
-        public void Save_Quizes(string path)
+        public void Save_Quizes()
         {
-            FileStream fs = new FileStream(path, FileMode.Create);
+            FileStream fs = new FileStream(quizes_path, FileMode.Create);
             StreamWriter sw = new StreamWriter(fs, Encoding.Unicode);
 
             sw.WriteLine(quizes.Count);
@@ -182,12 +238,12 @@ namespace work_with_files
             fs.Close();
 
         }
-        public void Read_Quizes(string path)
+        public void Read_Quizes()
         {
             String line;
             Quiz quiz = new Quiz();
             Task task = new Task();
-            StreamReader sr = new StreamReader(path);
+            StreamReader sr = new StreamReader(quizes_path);
             Score score = new Score();
 
             line = sr.ReadLine();
@@ -242,10 +298,10 @@ namespace work_with_files
 
             sr.Close();
         }
-        public void Save_Users(string path)
+        public void Save_Users()
         {
 
-            FileStream fs = new FileStream(path, FileMode.Create);
+            FileStream fs = new FileStream(users_path, FileMode.Create);
             StreamWriter sw = new StreamWriter(fs, Encoding.Unicode);
 
             sw.WriteLine(users.Count);
@@ -263,9 +319,9 @@ namespace work_with_files
             sw.Close();
             fs.Close();
         }
-        public void Read_Users(string path)
+        public void Read_Users()
         {
-            StreamReader sr = new StreamReader(path);
+            StreamReader sr = new StreamReader(users_path);
             String line;
             try
             {
