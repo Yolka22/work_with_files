@@ -18,6 +18,13 @@ namespace work_with_files
                 throw new NotImplementedException();
             }
 
+        public Score() {
+
+            name = "init";
+            score= 0;
+
+        }
+
         public void Show()
         {
 

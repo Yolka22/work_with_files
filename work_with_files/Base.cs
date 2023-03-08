@@ -47,7 +47,9 @@ namespace work_with_files
                 Console.WriteLine("\nЧто вы хотите?");
                 Console.WriteLine("\nНачать викторину - 1;" +
                                   "\nПоказать топ по викторине - 2"+
-                                  "\nВыйти - 3;" +
+                                  "\nДобавить викторину - 3"+
+                                  "\nИзменить пароль - 4" +
+                                  "\nВыйти - 5;" +
                                   "\n"); 
 
                 e = Convert.ToInt32(Console.ReadLine());
@@ -68,12 +70,24 @@ namespace work_with_files
 
                     case 3:
 
+                        add_quiz();
+
+                        break;
+
+                        case 4:
+
+                        user.Change_Password();
+
+                            break;
+
+                    case 5:
+
                         Main_Menu();
 
                         break;
                 }
                 
-            } while (e != 3);
+            } while (e != 5);
 
             
 
@@ -193,6 +207,8 @@ namespace work_with_files
                 quiz.Add_Question();
             }
 
+            quiz.scores.Add(new Score());
+
             quizes.Add(quiz);
         }
         public void Save_Quizes()
@@ -205,6 +221,11 @@ namespace work_with_files
 
             for (int i = 0; i < quizes.Count; i++)
             {
+                if (i>0)
+                {
+                    sw.WriteLine();
+                }
+                
                 sw.WriteLine(quizes[i].Name);
 
                 sw.WriteLine(quizes[i].tasks.Count);
@@ -241,7 +262,7 @@ namespace work_with_files
         public void Read_Quizes()
         {
             String line;
-            Quiz quiz = new Quiz();
+            
             Task task = new Task();
             StreamReader sr = new StreamReader(quizes_path);
             Score score = new Score();
@@ -251,7 +272,7 @@ namespace work_with_files
 
             for (int i = 0; i < Quizes_size; i++)
             {
-
+                Quiz quiz = new Quiz();
 
                 line = sr.ReadLine();
                 quiz.Name = line;

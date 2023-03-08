@@ -99,5 +99,14 @@ namespace work_with_files
             user.Score = 0;
         }
 
+        public void Change_Password()
+        {
+
+            Console.WriteLine("Введите новый пароль");
+
+            Password = Console.ReadLine();
+
+        }
+
     }
 }
